@@ -64,7 +64,7 @@ def stringDistances(text):
 	return distances
 
 
-def keyPermutations(keyLength):
+def keyPermutations(keyLength, keyLetters):
 	letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
 	length = 1
 	keys = []
@@ -187,7 +187,7 @@ def kasiskiExamination(cipherText):
 			for matchedChars in range(3):
 				possibleKeys[i][matchedChars] = matchTable[matchedChars][1]
 
-		keys = keyPermutations(keyLength)
+		keys = keyPermutations(keyLength, possibleKeys)
 		
 		result = decryptText(keyLength,cipherText)
 		decryptedText = result[0]
