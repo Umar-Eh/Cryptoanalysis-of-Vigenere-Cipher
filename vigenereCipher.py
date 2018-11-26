@@ -3,7 +3,7 @@ import string
 def removePunctuation(text):
 	textArray = []
 	
-	for i in range(0, len(text)):
+	for i in range(len(text)):
 		if (text[i].isalpha()):
 			textArray.append(text[i])
 	
@@ -18,7 +18,7 @@ def vigenereEncrypt(key, text):
 	
 	plainText = removePunctuation(text.upper())
 	
-	for index in range (0, len(plainText)):
+	for index in range (len(plainText)):
 		charCode = alphabets.find(plainText[index])
 		if (charCode == -1):
 			print("Error, text is not properly stripped of punctuation or letter not found")
@@ -44,7 +44,7 @@ def vigenereDecrypt(key, text):
 	decryptedArray = []
 	keyUsed = key.upper()
 
-	for index in range (0, len(text)):
+	for index in range (len(text)):
 		charCode = alphabets.find(text[index])
 		if (charCode == -1):
 			print("Error, supplied text to decrypt is not in proper format.")

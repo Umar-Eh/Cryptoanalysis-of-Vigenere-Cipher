@@ -11,7 +11,7 @@ def readDict(fileName):
 
 def findFactors(num):
 	factors = []
-	for i in range(3,num + 1):
+	for i in range(3, num + 1):
 		if ((num % i) == 0 and i < 8):
 			factors.append(i)
 	
@@ -37,7 +37,7 @@ def findGCD(distances):
 	for i in range(min(distances),max(distances)+1):
 		sums.append(0)
 
-		for j in range(0,len(distances)):
+		for j in range(len(distances)):
 			if ((distances[j] % i) == 0):
 				sums[i - min(distances)] += 1
 
@@ -52,10 +52,8 @@ def findGCD(distances):
 
 
 def stringDistances(text):
-	keyLengths = []
 	distances = []
-
-	for i in range(0,len(text) - 2):
+	for i in range(len(text) - 2):
 		checkString = text[i:i+3]
 		if (len(checkString) == 3):
 			for j in range(i+3, len(text) - 2):
@@ -63,16 +61,6 @@ def stringDistances(text):
 				if (checkString == duplicateString):
 					if ((j - i) <= 26):
 						distances.append(j - i)
-
-	for i in range(0,len(text) - 3):
-		checkString = text[i:i+4]
-		if (len(checkString) == 4):
-			for j in range(i+4, len(text) - 3):
-				duplicateString = text[j:j+4]
-				if (checkString == duplicateString):
-					if ((j - i) <= 26):
-						distances.append(j - i)
-
 	return distances
 
 
@@ -82,22 +70,20 @@ def keyPermutations(keyLength):
 	keys = []
 	totalSize = 1
 	counter = 0
-	for i in range(0, keyLength):
+	for i in range(keyLength):
 		totalSize *= (len(letters) - i) 
-
 	numConsecutive = totalSize // len(letters)
 	if (keyLength > 0):
 		index = 0
-		for i in range(0, totalSize):
+		for i in range(totalSize):
 			keys.append([letters[index]])
 			counter += 1
 			if (counter == (numConsecutive)):
 				counter = 0
 				index += 1
-	while (length < keyLength):
+	while (length < keyLength):	
 		index = 0
 		i = 0
-		
 		counter = 0
 		numConsecutive = numConsecutive // (len(letters) - length)
 		while (i < totalSize):	
@@ -132,15 +118,77 @@ def decryptText(keyLength, text):
 	return (decryptedText, currentKey)
 
 
+def getSubstrings(keyLength, text):
+	substrings = []
+	subarray = []
+	
+	if (keyLength > 0):
+		for j in range(keyLength):
+			subarray.append([])
+			for k in range(len(text)):
+				if (((k - j) % keyLength) == 0):
+					subarray[j].append(text[k])
+			substrings.append("".join(subarray[j]))
+	return substrings
+
+
+def frequencyCheck(text):
+	englishFrequency = "ETAOINSHRDLCUMWFGYPBVKJXQZ"
+	alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+	frequencyTable = []
+	matchCount = 0
+
+	for i in range(len(alphabet)):
+		frequencyTable.append([])
+		frequencyTable[i].append(alphabet[i])
+		frequencyTable[i].append(0)
+		for j in range(len(text)):
+			if (alphabet[i] == text[j]):
+					frequencyTable[i][1] += 1
+
+	frequencyTable.sort(key = getSecond, reverse = True)
+	
+	for letters in range(len(alphabet)):
+		if (englishFrequency[letters] == frequencyTable[letters][0]):
+			matchCount += 1
+	return matchCount
+	
+
+def getSecond(item):
+	return item[1]
+
+
+
+
 def kasiskiExamination(cipherText):
+	alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
 	distances = stringDistances(cipherText)
 	gcd = findGCD(distances)
 	keyLengths = findFactors(gcd)
-	#keyLengths = [2,3]
 	decryptedText = ""
 	success = False
+	matchTable = []
+	possibleKeys = []
 
 	for keyLength in keyLengths:
+		print("Trying key length: " + str(keyLength))
+		substrings = getSubstrings(keyLength, cipherText)
+
+		for i in range(keyLength):
+			possibleKeys.append([],[],[])
+			for letter in range(len(alphabet)):
+				matchTable.append([])
+				matchTable[letter].append(alphabet[letter])
+				matchTable[letter].append(0)
+
+				matchTable[letter][1] = frequencyCheck(vigenereCipher.vigenereDecrypt(alphabet[letter], substrings[i]))
+			
+			matchTable.sort(key = getSecond, reverse = True)
+			for matchedChars in range(3):
+				possibleKeys[i][matchedChars] = matchTable[matchedChars][1]
+
+		keys = keyPermutations(keyLength)
+		
 		result = decryptText(keyLength,cipherText)
 		decryptedText = result[0]
 		if (decryptedText != ""):
@@ -159,21 +207,6 @@ def checkforEnglish(text):
 
 	dictionary = readDict("dictionary.txt")
 	
-	numMatches = 0
-	for word in dictionary:
-		for i in range(0, len(text)):
-			substring = text[i:i+len(word)]
-			if (len(substring) == len(word)):
-				if (substring == word):	
-					numMatches += 1
-	if (numMatches > 9):
-		return True
-	else:
-		return False
-		
-	
-
-
 
 
 
