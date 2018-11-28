@@ -7,22 +7,23 @@ def mostCommonLetters(keyLength, text):
 	substrings = getSubstrings(keyLength, text)
 	letters = []
 	for string in range(keyLength):
-		letters.append([])
-		if (string > 8):
+		if (string > 20):
 			break
+		letters.append([])
 		matches = []
 		for letter in alphabets:
-			matches.append([letter, checkForEnglish.frequencyCheck(vigenereCipher.vigenereDecrypt(letter, substrings[string]))])
+			matches.append([letter, checkForEnglish.stringCorrelation(vigenereCipher.vigenereDecrypt(letter, substrings[string]))])
 		matches.sort(key = getSecond, reverse = True)
 		for i in range(len(matches)):
-			if (matches[i][1] == (matches[0][1] + 1) or matches[i][1] == matches[0][1]):
-				letters[string].append(matches[i][0])
+			if (i == 3):
+				break
+			letters[string].append(matches[i][0])
 	return letters
 
 def findFactors(num):
 	factors = []
 	for i in range(3, num + 1):
-		if ((num % i) == 0):
+		if ((num % i) == 0 and i < 10):
 			factors.append(i)
 	return factors
 
@@ -34,7 +35,7 @@ def findUniqueFactors(factorsList):
 				uniqueFactors.append(factor)
 	uniqueFactors.sort()
 	return uniqueFactors
-
+	
 def getMostCommonFactors(factorsList):
 	uniqueFactors = findUniqueFactors(factorsList)
 	factorFrequencies = []
@@ -47,8 +48,9 @@ def getMostCommonFactors(factorsList):
 				factorFrequencies[uniqueFactors.index(factor)][1] += 1
 	factorFrequencies.sort(key = getSecond, reverse = True)
 	for i in range(len(factorFrequencies)):
-		if (factorFrequencies[i][0] < 9):
-			resultFactors.append(factorFrequencies[i][0])
+		if (i == 3):
+			break
+		resultFactors.append(factorFrequencies[i][0])
 	return resultFactors
 
 def stringDistances(text):
@@ -112,32 +114,46 @@ def buildKeys(letters):
 		keys.append(key)
 	return keys
 
+def detectKeyLength(lengths, text):
+	keyLength = 0
+	minDifference = 1
+	for length in lengths:
+		subStrings = getSubstrings(length, text)
+		sum = 0
+		for subString in subStrings:
+			sum += checkForEnglish.frequencyCheck(subString)
+		coIncidence = sum / length
+		if (coIncidence > 0.06 and coIncidence < 0.07):
+			if (abs(coIncidence - 0.067) < minDifference):
+				minDifference = abs(coIncidence - 0.067)
+				keyLength = length
+	return keyLength
+
 def kasiskiExamination(cipherText):
 	distances = stringDistances(cipherText)
 	factors = []
 	for distance in distances:
 		factors.append(findFactors(distance))
 	keyLengths = getMostCommonFactors(factors)
-	return keyLengths
+	keyLengths.sort()
+	keyLength = detectKeyLength(keyLengths, cipherText)
+	return keyLength
 
 def bruteForceMethod(cipherText):
-	keyLengths = kasiskiExamination(cipherText)
-	keyLengths.sort()
+	keyLength = kasiskiExamination(cipherText)
 	maxMatch = 0
 	key = ""
-	for keyLength in keyLengths:
-		letters = mostCommonLetters(keyLength, cipherText)
-		keys = buildKeys(letters)
-		numKeys = len(keys)
-		for currentKey in range(numKeys):
-			#print("Checking for: " + keys[currentKey] + "(Totat: " + str(numKeys) + ", Current: " + str(currentKey) + ")")
-			currentMatch = checkForEnglish.frequencyCheck(vigenereCipher.vigenereDecrypt(keys[currentKey], cipherText))
-			if (currentMatch >= maxMatch):
-				if (len(key) != 0):
-					if (len(keys[currentKey]) % len(key) == 0):
-						if (keys[currentKey][len(key):] == key):
-							continue
-				maxMatch = currentMatch
-				key = keys[currentKey]
+	letters = mostCommonLetters(keyLength, cipherText)
+	keys = buildKeys(letters)
+	keys.sort()
+	numKeys = len(keys)
+	for currentKey in range(numKeys):
+		if (keys[currentKey] == ""):
+			continue
+		print("Checking for: " + keys[currentKey] + "(Totat: " + str(numKeys) + ", Current: " + str(currentKey) + ")")
+		currentMatch = checkForEnglish.stringCorrelation(vigenereCipher.vigenereDecrypt(keys[currentKey], cipherText))
+		if (currentMatch >= maxMatch):
+			maxMatch = currentMatch
+			key = keys[currentKey]
 	
 	return key
