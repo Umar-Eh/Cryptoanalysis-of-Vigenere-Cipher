@@ -13,3 +13,11 @@ pso(cipherText):
             update position
     return key = globalBest
 
+
+Big-O:
+    initialization takes O(n) time where num particles = n
+    if numiterations = k, num particales = n, keylength = m then
+        fitnessfunction takes O(k*n*m) time
+
+
+    Thus big-O is O(n*m*k)

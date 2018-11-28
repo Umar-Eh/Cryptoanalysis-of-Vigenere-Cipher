@@ -26,3 +26,18 @@ bruteForce(cipherText):
         possiblekey = key with closest match to 0.067 index of correlation
     
     return possibleKey
+
+    Big-O:
+
+    distances calculation is 3n + 4n + 5n = O(n) where n is ciphertext length
+
+    finding avg index of correlation for each factor takes factorvalue * n since the text is decrypted letter by letter
+
+    if num(possiblekey) = m then finding key length takes O(m *n) since m << n, we can assume finding keylength takes O(n)
+
+    building keycombination takes O(26^k) for key length k
+
+    finding possible key takes O(26^k *n)
+
+    Thus big-O: O(26^k * n)
+
