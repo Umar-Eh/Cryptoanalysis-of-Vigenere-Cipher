@@ -18,9 +18,7 @@ def main():
 		print("Brute force method could not find the key.")
 	else:
 		print("Key : " + foundKey)
-		print()
-		print("Decrypted text: ")
-		print(vigenereCipher.vigenereDecrypt(foundKey, encryptedText))
+		
 	print()
 
 	foundKey = psoMethod.psoAttack(len(key), encryptedText)
