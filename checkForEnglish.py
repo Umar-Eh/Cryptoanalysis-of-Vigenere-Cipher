@@ -5,8 +5,7 @@ def frequencyCheck(text):
     frequencyCount = [0]*26
     textLength = len(text)
     for letter in text:
-        if (letter in alphabets):
-              frequencyCount[alphabets.find(letter)] += 1
+        frequencyCount[alphabets.find(letter)] = text.count(letter)
     sum = 0
     for letter in range(len(alphabets)):
         sum += (frequencyCount[letter] * (frequencyCount[letter] - 1))
@@ -18,8 +17,7 @@ def stringCorrelation(text):
     alphabets = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
     frequency = [0]*26
     for letter in text:
-        if (letter in alphabets):
-              frequency[alphabets.find(letter)] += 1
+        frequency[alphabets.find(letter)] = text.count(letter)
     sum = 0
     for i in range(26):
         sum += (frequency[i] / len(text) *100) * (englishFrequencies[i])
