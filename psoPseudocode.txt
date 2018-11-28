@@ -1,0 +1,15 @@
+input: cipherText with length n
+output: key with length m or error if no key found
+
+pso(cipherText):
+    initialize 100 particles with random positions and personal best errors
+    for iterations 0 to 300:
+        for each particle:
+            for each letter from A to Z:
+                calculate fitnesserror for the particle
+                update personalBest and globalBest
+        for each particle:
+            update velocity
+            update position
+    return key = globalBest
+
