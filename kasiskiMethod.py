@@ -35,7 +35,7 @@ def findUniqueFactors(factorsList):
 				uniqueFactors.append(factor)
 	uniqueFactors.sort()
 	return uniqueFactors
-	
+
 def getMostCommonFactors(factorsList):
 	uniqueFactors = findUniqueFactors(factorsList)
 	factorFrequencies = []
@@ -150,7 +150,7 @@ def bruteForceMethod(cipherText):
 	for currentKey in range(numKeys):
 		if (keys[currentKey] == ""):
 			continue
-		print("Checking for: " + keys[currentKey] + "(Totat: " + str(numKeys) + ", Current: " + str(currentKey) + ")")
+		#print("Checking for: " + keys[currentKey] + "(Totat: " + str(numKeys) + ", Current: " + str(currentKey) + ")")
 		currentMatch = checkForEnglish.stringCorrelation(vigenereCipher.vigenereDecrypt(keys[currentKey], cipherText))
 		if (currentMatch >= maxMatch):
 			maxMatch = currentMatch
