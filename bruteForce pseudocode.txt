@@ -1,0 +1,28 @@
+input: cipherText with length n
+output: key with length m or error if no key found
+
+bruteForce(cipherText):
+    initialize empty key, distances = 0
+    for textlengths 3 to 5:
+        if cipherText.substring == textlength
+        distances. add (index of substring - index of textlength)
+
+    for each distance:
+        get factors list
+    
+    for each factor:
+        split cipherText into num(factor) substrings
+        for each substring:
+            find letter frequencies of decrypted substring
+            avg index of correlation = 1 /(N)(N-1) * sum(ni(ni -1))
+        
+    keylength = factor with closest index of correlation to 0.067
+
+    build key combinations for keylength
+
+    for each key:
+        find index of correlation of decrypted text with key
+        calculate avg index of correlation
+        possiblekey = key with closest match to 0.067 index of correlation
+    
+    return possibleKey
