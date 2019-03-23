@@ -10,7 +10,7 @@ a Vigenere Cipher.<br><br>
    methods.<br><br>
 
 You may test only one of the aforementioned methods by commenting out the apporpriate lines i.e.<br>
-foundKey = kasiskiMethod.bruteForceMethod(encryptedText) or foundKey = psoMethod.psoAttack(len(key), encryptedText)<br><br>
+**foundKey = kasiskiMethod.bruteForceMethod(encryptedText)** or **foundKey = psoMethod.psoAttack(len(key), encryptedText)**<br><br>
 
 Please note that the plaintext variable may be replaced by a text file read and stored into a variable instead. <br>
 This is a planned modification to the program. 
