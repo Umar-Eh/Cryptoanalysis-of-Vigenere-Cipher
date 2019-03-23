@@ -3,7 +3,7 @@
 This repositoy contains a cryptoanalysis method in order to decipher and analyze<br>
 a Vigenere Cipher.<br><br>
 
-# How to use
+# Instructions
 
 1. Clone the repository : git clone https://github.com/Umar-Eh/Cryptoanalysis-of-Vigenere-Cipher.git<br>
 2. Run mainprogram.py (python mainprogram.py) to try both brute force and the particle swarm optimization (PSO)<br>
